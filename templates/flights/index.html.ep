@@ -1,0 +1,40 @@
+% layout 'default';
+% title 'Your Flights';
+
+<div>
+	<div>
+  <grid>
+    <div col="3/4">
+      <h2>Your Flights</h2>
+    </div>
+    <div col="1/4">
+      <div txt=r>
+        <a btn primary href="<%= url_for 'flights_new'%>">+ Book a Flight</a>
+      </div>
+    </div>
+  </grid>
+  </div>
+  <br/>
+  <br/>
+  </div>
+  % if (not $skip_pagination) {
+    <div txt=r><%== $pagination %></div>
+  % }
+  % if (scalar(@$flights) > 0) {
+    % foreach my $flight (@{$flights}) {
+      <card style="background: #f2f2f2" >
+        <h3><%= $flight->{country} %><img style="margin-left: 10px; vertical-align: sub" src="https://www.countryflags.io/<%=$flight->{country}%>/flat/32.png"></h3>
+        <p><strong>FROM:</strong> <%= $flight->{departure_date} %> - <strong>TO:</strong> <%= $flight->{return_date}%></p>
+        <p><strong>Class:</strong> <%= $flight->{service_class} %></p>
+        <p><strong>Number of Adults:</strong> <%= $flight->{adults_number} %></p>
+        <div txt=r>
+          <a btn href="<%= url_for 'flights_edit', id => $flight->{_id} %>">Edit</a>
+        </div>
+      </card>
+    % }
+  % } else {
+		<h3 txt=c>No flight has been found in the system!</h3>
+	% }
+
+</div>
+

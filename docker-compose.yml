@@ -1,0 +1,22 @@
+version: '3'
+
+
+version: '3'
+services:
+  mongo_server:
+    image: mvertes/alpine-mongo
+    volumes:
+      - ~/mongo-data:/data/db
+  app_server:
+    build: .
+    command: hypnotoad -f ./script/flying_app
+    volumes:
+      - .:/usr/src/myapp
+    ports:
+      - "3000:8080"
+    depends_on:
+      - mongo_server
+
+
+
+

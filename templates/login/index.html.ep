@@ -1,0 +1,12 @@
+% layout 'default';
+% title 'Login';
+
+<div>
+  <div txt=c><h2>Flying - Log In</h2></div>
+  <hr/>
+	<form style="max-width: 200px; margin: 0 auto;" action="<%= url_for 'login_post' %>" method="POST">
+		<strong>Username:</strong> <input name="email" type="email"></br>
+		<strong>Password:</strong> <input name="password" type="password"></br>
+		<div txt="r"><input primary type="submit" value="Log In"></div>
+	</form>
+</div>

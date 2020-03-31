@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= title %></title>
+		<link href="<%= url_for '/' %>css/bare.min.css" rel="stylesheet">
+		<link href="<%= url_for '/' %>css/site.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<div>
+			<!-- add the fx attribute to the nav if you want it fixed to the top -->
+			<nav>
+				<!-- this label allows the checkbox to be activated by clicking anywhere in the nav -->
+				<label>
+					<!-- checkbox required for responsiven menu -->
+					<input type="checkbox">
+
+					<!-- bareCSS will use the header to contain the hamburger menu -->
+					<header>
+						<!-- you can leave this empty if you don't want a title -->
+						<a><img src="<%= url_for 'dashboard' %>img/logo.png"> Flying</a>
+					</header>
+
+						<ul>
+						  <li><a href="<%= url_for 'dashboard' %>">Home</a></li>
+              % if ($self->session('logged_in')) {
+                <li><a href="<%= url_for 'flights_list' %>">Flights</a></li>
+                <li>
+                <a><%= $self->session('username')%></a>
+
+                <!-- use <menu> and <menuitem> within an <li> for dropdowns -->
+                <menu>
+                  <menuitem>
+                    <a href="<%= url_for 'logout' %>">Log Out</a>
+                  </menuitem>
+                </menu>
+              </li>
+              % } else {
+                <li><a href="<%= url_for 'login' %>">Log in</a></li>
+              % }
+						</ul>
+
+				</label>
+			</nav>
+		</div>
+		<section>
+      % if (my $alert_success = flash 'success') {
+        <div>
+          <div onClick="this.parentNode.parentNode.removeChild(this.parentNode)" class="alert-success"><%= $alert_success %></div>
+        </div>
+      % }
+
+      % if (my $alert_error = flash 'error') {
+        <div>
+          <div onClick="this.parentNode.parentNode.removeChild(this.parentNode)" class="alert-error"><%= $alert_error %></div>
+        </div>
+      % }
+      
+			<%= content %>
+	</section>
+	</body>
+</html>

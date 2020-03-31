@@ -1,0 +1,51 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: melvinrr25/mojotest:v2
+
+    steps:
+      - checkout
+
+      - run:
+          name: Run the fucking tests
+          command: script/flying_app test
+
+  deploy:
+    machine:
+      enabled: true
+
+    steps:
+      - checkout
+      - run:
+          name: Fix ssh Could not resolve hostname
+          command: |
+            ssh-keyscan 34.201.166.5 >> ~/.ssh/known_hosts # Add live server IP to known hosts.
+
+      - add_ssh_keys:
+          fingerprints:
+            - "1e:92:6a:c0:e5:78:55:b3:81:8d:c7:3a:4f:41:bc:16"
+
+      - run:
+          name: Deploy master.
+          command: if [ "${CIRCLE_BRANCH}" == "master" ]; then ssh ec2-user@34.201.166.5 'sudo docker rmi melvinrr25/mojotest:v1 -f && sudo docker rm mojo_app -f && sudo docker run -d -p 8080:8080 --name mojo_app --net=host melvinrr25/mojotest:v2'; else echo "Skipped"; fi
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+

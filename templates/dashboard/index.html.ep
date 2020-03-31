@@ -1,0 +1,14 @@
+% layout 'default';
+% title 'Welcome';
+<!-- card element -->
+<section>
+  <h1>Fly all around the world</h1>
+  <card>
+    <img src="img/main.jpg" alt="sign">
+
+    <h5>Book a bundle. Save a bundle. </h5>
+
+    <p>Adventure trips, girlfriend getaways, family resorts, romantic escapes – we go there. And when you book flights + hotel together, you get extra savings on both. Plus, you’ll earn TrueBlue points per dollar spent.</p>
+  </card>
+</section>
+
